@@ -18,7 +18,7 @@
       position: relative;
     }
 
-    /* Capa suave para mejorar la lectura */
+    /* Capa suau per llegibilitat */
     body::before {
       content: "";
       position: fixed;
@@ -36,7 +36,7 @@
       padding: 20px;
       background: white;
       border-radius: 12px;
-      box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+      box-shadow: 0 6px 20px rgba(0,0,0,0.12);
     }
 
     .hidden {
@@ -52,10 +52,15 @@
       font-size: 18px;
       cursor: pointer;
       margin-top: 20px;
+      transition: 0.2s;
     }
 
     .btn:hover {
       background: #a88256;
+    }
+
+    .btn:active {
+      transform: scale(0.97);
     }
 
     .fade-in {
@@ -66,12 +71,47 @@
     @keyframes fadeIn {
       to { opacity: 1; }
     }
+
+    /* Estil elegant */
+    .card h2, .card h1 {
+      font-family: "Georgia", serif;
+      color: #6b4f3f;
+    }
+
+    label {
+      font-weight: bold;
+      color: #6b4f3f;
+    }
+
+    input, select {
+      border: 1px solid #d8c7b3;
+      border-radius: 6px;
+      background: #faf7f4;
+    }
+
+    input:focus, select:focus {
+      outline: none;
+      border-color: #c19a6b;
+      box-shadow: 0 0 4px rgba(193,154,107,0.5);
+    }
+
+    /* Animació del camp d'acompanyant */
+    .fade-field {
+      opacity: 0;
+      transform: translateY(-5px);
+      transition: opacity 0.4s ease, transform 0.4s ease;
+    }
+
+    .fade-field.show {
+      opacity: 1;
+      transform: translateY(0);
+    }
   </style>
 </head>
 
 <body>
 
-  <!-- BLOQUEO POR CÓDIGO -->
+  <!-- BLOQUEIG PER CODI -->
   <div class="card" id="login">
     <h2>Introdueix el teu codi d'invitació</h2>
     <input type="text" id="inviteCode" placeholder="Codi" style="padding:10px; width:80%; font-size:16px;">
@@ -108,68 +148,52 @@
   </div>
 
   <!-- FORMULARI PERSONALITZAT -->
-<div class="card hidden" id="formulari">
-  <h2>Confirmació d'assistència</h2>
+  <div class="card hidden" id="formulari">
+    <h2>Confirmació d'assistència</h2>
 
-  <p><strong>Nom:</strong> <span id="formNom"></span></p>
+    <p><strong>Nom:</strong> <span id="formNom"></span></p>
 
-  <label>Assistiràs?</label><br>
-  <select id="assistencia" style="padding:10px; width:80%; margin-bottom:15px;">
-    <option value="Sí">Sí</option>
-    <option value="No">No</option>
-  </select><br>
+    <label>Assistiràs?</label><br>
+    <select id="assistencia" style="padding:10px; width:80%; margin-bottom:15px;">
+      <option value="Sí">Sí</option>
+      <option value="No">No</option>
+    </select><br>
 
-  <label>Vindràs amb acompanyant?</label><br>
-  <select id="acompanyant" style="padding:10px; width:80%; margin-bottom:15px;">
-    <option value="No">No</option>
-    <option value="Sí">Sí</option>
-  </select><br>
-  
-  <!-- Nom de l'acompanyant (ocult per defecte) -->
-    <div id="acompanyantNomDiv" class="hidden">
-        <label>Nom de l'acompanyant</label><br>
-         <input type="text" id="acompanyantNom" placeholder="Nom de l'acompanyant"
-         style="padding:10px; width:80%; margin-bottom:15px;">
+    <label>Vindràs amb acompanyant?</label><br>
+    <select id="acompanyant" style="padding:10px; width:80%; margin-bottom:15px;">
+      <option value="No">No</option>
+      <option value="Sí">Sí</option>
+    </select><br>
+
+    <!-- CAMP AMB ANIMACIÓ -->
+    <div id="acompanyantNomDiv" class="hidden fade-field">
+      <label>Nom de l'acompanyant</label><br>
+      <input type="text" id="acompanyantNom" placeholder="Nom de l'acompanyant"
+             style="padding:10px; width:80%; margin-bottom:15px;">
     </div>
 
+    <label>Menú preferit</label><br>
+    <select id="menu" style="padding:10px; width:80%; margin-bottom:15px;">
+      <option value="Carn">Carn</option>
+      <option value="Peix">Peix</option>
+      <option value="Vegetarià">Vegetarià</option>
+    </select><br>
 
-  <label>Menú preferit</label><br>
-  <select id="menu" style="padding:10px; width:80%; margin-bottom:15px;">
-    <option value="Carn">Carn</option>
-    <option value="Peix">Peix</option>
-    <option value="Vegetarià">Vegetarià</option>
-  </select><br>
+    <label>Alergies o intoleràncies</label><br>
+    <input type="text" id="alergies" placeholder="Cap" style="padding:10px; width:80%; margin-bottom:15px;"><br>
 
-  <label>Alergies o intoleràncies</label><br>
-  <input type="text" id="alergies" placeholder="Cap" style="padding:10px; width:80%; margin-bottom:15px;"><br>
+    <button class="btn" onclick="enviarFormulari()">Enviar</button>
 
-  <button class="btn" onclick="enviarFormulari()">Enviar</button>
-
-  <p id="missatgeOK" style="color:green; margin-top:15px;"></p>
-</div>
-
+    <p id="missatgeOK" style="color:green; margin-top:15px;"></p>
+  </div>
 
   <script>
-    // Códigos personalizados por invitado
+    // Còdics personalitzats
     const invitats = {
-      "CANCABUS": "Josep",
-      "CRIS2027": "Cristina",
-      "FAM001": "Família 1",
-      "FAM002": "Família 2"
-      // Afegir més aquí...
+      "2027wed": "Josep",
+      "Pescanova": "Padere",
+      "Perlarosa": "Madere"
     };
-    
-    document.getElementById("acompanyant").addEventListener("change", function() {
-    const div = document.getElementById("acompanyantNomDiv");
-
-         if (this.value === "Sí") {
-             div.classList.remove("hidden");
-         } else {
-            div.classList.add("hidden");
-            document.getElementById("acompanyantNom").value = "";
-  }
-});
-
 
     function checkCode() {
       const code = document.getElementById("inviteCode").value.trim().toUpperCase();
@@ -193,45 +217,57 @@
     }
 
     function anarAFormulari() {
-        const nom = localStorage.getItem("nomInvitat");
+      const nom = localStorage.getItem("nomInvitat");
 
-        document.getElementById("content").classList.add("hidden");
-        document.getElementById("formulari").classList.remove("hidden");
+      document.getElementById("content").classList.add("hidden");
+      document.getElementById("formulari").classList.remove("hidden");
 
-        document.getElementById("formNom").innerText = nom;
+      document.getElementById("formNom").innerText = nom;
+    }
 
+    // Animació del camp d'acompanyant
+    document.getElementById("acompanyant").addEventListener("change", function() {
+      const div = document.getElementById("acompanyantNomDiv");
+
+      if (this.value === "Sí") {
+        div.classList.remove("hidden");
+        setTimeout(() => div.classList.add("show"), 10);
+      } else {
+        div.classList.remove("show");
+        setTimeout(() => div.classList.add("hidden"), 300);
+        document.getElementById("acompanyantNom").value = "";
+      }
+    });
+
+    // Enviament a Google Sheets
     function enviarFormulari() {
-        const nom = localStorage.getItem("nomInvitat");
-         const assistencia = document.getElementById("assistencia").value;
-         const acompanyant = document.getElementById("acompanyant").value;
-         const acompanyantNom = document.getElementById("acompanyantNom").value;
-         const menu = document.getElementById("menu").value;
-         const alergies = document.getElementById("alergies").value;
+      const nom = localStorage.getItem("nomInvitat");
+      const assistencia = document.getElementById("assistencia").value;
+      const acompanyant = document.getElementById("acompanyant").value;
+      const acompanyantNom = document.getElementById("acompanyantNom").value;
+      const menu = document.getElementById("menu").value;
+      const alergies = document.getElementById("alergies").value;
 
-    fetch("https://script.google.com/macros/s/AKfycbwBu_23rVEMEgus69SfaU8NJAAe1eN2DaQuOeS1zzqoZbUZ6GkqVs3aUNZ6YWGTDB4x/exec", {
+      fetch("AQUÍ_LA_TEVA_URL_WEBAPP", {
         method: "POST",
         body: JSON.stringify({
-        nom: nom,
-        assistencia: assistencia,
-        acompanyant: acompanyant,
-        acompanyantNom: acompanyantNom,
-        menu: menu,
-        alergies: alergies
-    })
-  })
-
-    .then(res => res.text())
-    .then(text => {
+          nom: nom,
+          assistencia: assistencia,
+          acompanyant: acompanyant,
+          acompanyantNom: acompanyantNom,
+          menu: menu,
+          alergies: alergies
+        })
+      })
+      .then(res => res.text())
+      .then(text => {
         document.getElementById("missatgeOK").innerText = "Resposta enviada! Moltes gràcies ❤️";
-  })
-  .catch(err => {
-    alert("Hi ha hagut un error enviant la resposta.");
-    console.error(err);
-  });
-}
-
-}
-
+      })
+      .catch(err => {
+        alert("Hi ha hagut un error enviant la resposta.");
+        console.error(err);
+      });
+    }
   </script>
 
 </body>
