@@ -18,7 +18,6 @@
       position: relative;
     }
 
-    /* Capa suau per llegibilitat */
     body::before {
       content: "";
       position: fixed;
@@ -72,7 +71,6 @@
       to { opacity: 1; }
     }
 
-    /* Estil elegant */
     .card h2, .card h1 {
       font-family: "Georgia", serif;
       color: #6b4f3f;
@@ -95,7 +93,7 @@
       box-shadow: 0 0 4px rgba(193,154,107,0.5);
     }
 
-    /* Animació del camp d'acompanyant */
+    /* Animació camp acompanyant */
     .fade-field {
       opacity: 0;
       transform: translateY(-5px);
@@ -105,6 +103,28 @@
     .fade-field.show {
       opacity: 1;
       transform: translateY(0);
+    }
+
+    /* Animació del sobre */
+    .sobre-container {
+      position: relative;
+      width: 250px;
+      margin: 0 auto;
+    }
+
+    .sobre {
+      width: 100%;
+      transition: opacity 1s ease, transform 1s ease;
+    }
+
+    #sobreTancat.open {
+      opacity: 0;
+      transform: scale(0.9);
+    }
+
+    #sobreObert.show {
+      opacity: 1;
+      transform: scale(1.05);
     }
   </style>
 </head>
@@ -118,6 +138,14 @@
     <br><br>
     <button class="btn" onclick="checkCode()">Entrar</button>
     <p id="error" style="color:red; margin-top:10px;"></p>
+  </div>
+
+  <!-- ANIMACIÓ DEL SOBRE -->
+  <div class="card hidden" id="sobreAnim">
+    <div class="sobre-container">
+      <img src="assets/img/sobre-tancat.png" id="sobreTancat" class="sobre">
+      <img src="assets/img/sobre-obert.png" id="sobreObert" class="sobre hidden">
+    </div>
   </div>
 
   <!-- PANTALLA DE BENVINGUDA -->
@@ -165,7 +193,6 @@
       <option value="Sí">Sí</option>
     </select><br>
 
-    <!-- CAMP AMB ANIMACIÓ -->
     <div id="acompanyantNomDiv" class="hidden fade-field">
       <label>Nom de l'acompanyant</label><br>
       <input type="text" id="acompanyantNom" placeholder="Nom de l'acompanyant"
@@ -188,11 +215,10 @@
   </div>
 
   <script>
-    // Còdics personalitzats
     const invitats = {
       "CANCABUS": "Josep",
       "CRIS2027": "Cristina",
-      "Pescanova": "Padere",
+      "FAM001": "Família 1",
       "FAM002": "Família 2"
     };
 
@@ -204,9 +230,23 @@
         localStorage.setItem("nomInvitat", nom);
 
         document.getElementById("login").classList.add("hidden");
-        document.getElementById("welcome").classList.remove("hidden");
+        document.getElementById("sobreAnim").classList.remove("hidden");
 
-        document.getElementById("welcomeName").innerText = nom;
+        setTimeout(() => {
+          document.getElementById("sobreTancat").classList.add("open");
+        }, 500);
+
+        setTimeout(() => {
+          document.getElementById("sobreObert").classList.remove("hidden");
+          document.getElementById("sobreObert").classList.add("show");
+        }, 1500);
+
+        setTimeout(() => {
+          document.getElementById("sobreAnim").classList.add("hidden");
+          document.getElementById("welcome").classList.remove("hidden");
+          document.getElementById("welcomeName").innerText = nom;
+        }, 3000);
+
       } else {
         document.getElementById("error").innerText = "Codi incorrecte";
       }
@@ -226,7 +266,6 @@
       document.getElementById("formNom").innerText = nom;
     }
 
-    // Animació del camp d'acompanyant
     document.getElementById("acompanyant").addEventListener("change", function() {
       const div = document.getElementById("acompanyantNomDiv");
 
@@ -240,7 +279,6 @@
       }
     });
 
-    // Enviament a Google Sheets
     function enviarFormulari() {
       const nom = localStorage.getItem("nomInvitat");
       const assistencia = document.getElementById("assistencia").value;
