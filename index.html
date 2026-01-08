@@ -29,30 +29,31 @@
 
     /* FOTOS AL 80% DE LA PANTALLA */
     #slideshow img {
-      position: absolute;
-      top: 50%;
-      left: 50%;
-      width: 80vw;
-      height: 80vh;
-      transform: translate(-50%, -50%);
-      object-fit: cover;
-      border-radius: 12px;
-      z-index: 1;
-    }
+       position: absolute;
+       top: 50%;
+       left: 50%;
+       width: 80vw;
+       height: 80vh;
+       transform: translate(-50%, -50%);
+        object-fit: cover;
+       border-radius: 12px;
+       z-index: 1;
+      pointer-events: none; /* CLAU: la imatge ja no intercepta el clic */
+}
 
-    /* BOTÓ CONTINUAR FUNCIONANT */
-    #slideshow button {
-      position: relative;
+  #slideshow button {
+     position: relative;
       margin-bottom: 40px;
       padding: 14px 24px;
-      background: #c19a6b;
-      border: none;
-      border-radius: 8px;
-      color: white;
-      font-size: 20px;
-      cursor: pointer;
+     background: #c19a6b;
+     border: none;
+     border-radius: 8px;
+     color: white;
+     font-size: 20px;
+     cursor: pointer;
       z-index: 9999;
-    }
+}
+
 
     /* TARGETES */
     .card {
